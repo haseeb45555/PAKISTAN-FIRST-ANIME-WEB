@@ -38,7 +38,7 @@ PAKISTAN-FIRST-ANIME-WEB/
 
 🌐 Live Demo
 You can check out the live version of this project hosted via GitHub Pages:
-👉 https://pakistananimeweb.site.je/
+👉 https://haseeb45555.github.io/PAKISTAN-FIRST-ANIME-WEB/
 
 📄 License
 This project is open-source and available under the MIT License.
