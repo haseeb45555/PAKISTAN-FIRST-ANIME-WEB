@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | PakistanAnime</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 80px; }
+    .admin-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px; flex-wrap: wrap; }
+    .admin-tab { padding: 12px 20px; background: none; border: none; color: var(--text-muted); font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; font-family: inherit; font-size: 0.95rem; }
+    .admin-tab.active { color: #ec4899; border-bottom-color: #ec4899; }
+    .admin-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .admin-card h2 { font-size: 1.1rem; margin-bottom: 6px; font-weight: 700; }
+    .admin-card .hint { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.95rem; background: var(--bg); color: var(--text); font-family: inherit;
+    }
+    .form-group textarea { min-height: 70px; resize: vertical; }
+    .form-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .btn-pink { background: #ec4899; color: #fff; border: none; padding: 11px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .btn-pink:hover { background: #db2777; }
+    .btn-danger { background: #ef4444; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+    .btn-ghost2 { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+    .btn-gold { background: transparent; border: 1px solid #eab308; color: #eab308; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .chip { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-size: 0.8rem; }
+    .chip.on { background: #ec4899; border-color: #ec4899; color: #fff; }
+    .series-row {
+      display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 10px; background: var(--bg); flex-wrap: wrap;
+    }
+    .series-row img { width: 48px; height: 68px; object-fit: cover; border-radius: 6px; background: #1e293b; }
+    .series-row .info { flex: 1; min-width: 140px; }
+    .series-row .info h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .series-row .info span { font-size: 0.78rem; color: var(--text-muted); }
+    .series-row .actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; margin-right: 4px; }
+    .badge-s { background: #ec4899; color: #fff; }
+    .badge-m { background: #0ea5e9; color: #fff; }
+    .badge-top { background: #eab308; color: #000; }
+    .pwd-gate {
+      max-width: 380px; margin: 100px auto; padding: 28px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 16px; text-align: center; box-shadow: var(--shadow-lg);
+    }
+    .pwd-gate input { width: 100%; margin: 14px 0; padding: 12px; border-radius: 10px; border: 1px solid var(--border); font-size: 1rem; background: #fff; color: #0f172a; }
+    .hidden { display: none !important; }
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 200;
+      display: flex; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-box {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 22px;
+    }
+    .modal-box h3 { margin-bottom: 14px; font-size: 1.2rem; }
+    .ep-item {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; background: var(--bg);
+    }
+    .status-bar { background: rgba(16,185,129,0.15); color: #34d399; padding: 12px 16px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 18px; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-flag" aria-hidden="true">
+          <svg viewBox="0 0 60 40" width="36" height="24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="40" fill="#01411C"/>
+            <rect width="15" height="40" fill="#fff"/>
+            <circle cx="34" cy="20" r="9" fill="#fff"/>
+            <circle cx="37" cy="20" r="7.5" fill="#01411C"/>
+            <polygon fill="#fff" points="42,14 43.2,17.5 46.8,17.5 43.9,19.6 45,23 42,20.8 39,23 40.1,19.6 37.2,17.5 40.8,17.5"/>
+          </svg>
+        </span>
+        <span class="logo-text"><span class="logo-pk">Pakistan</span><span class="logo-an">Anime</span></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="pwd-gate" id="pwdGate">
+    <h2>Admin Login</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-top:6px">Authorized access only</p>
+    <input type="password" id="adminPwd" placeholder="Enter password" autocomplete="current-password" />
+    <button class="btn btn-primary" style="width:100%;color:#fff;justify-content:center" id="loginBtn">Login</button>
+    <p id="pwdError" style="color:#ef4444;font-size:0.85rem;margin-top:10px" class="hidden">Wrong password</p>
+  </div>
+
+  <div class="admin-wrap hidden" id="adminPanel">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+      <h1 style="font-size:1.5rem;font-weight:800">Admin Panel</h1>
+      <div style="display:flex;gap:8px">
+        <a href="index.html" class="btn-ghost2">← Site</a>
+        <button class="btn-ghost2" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+    <div class="status-bar">Auto (AnimeSalt) ON · Manual series/episodes + episode overrides merge on public site · Ab har manual Series/Movie ke liye Homepage Placement (Trending / Top Rated / Popular Movies / Cartoons) khud choose kar sakte ho</div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="series">Series</button>
+      <button class="admin-tab" data-tab="movies">Movies</button>
+      <button class="admin-tab" data-tab="epedit">Edit API Episode</button>
+      <button class="admin-tab" data-tab="live">Live Catalog</button>
+    </div>
+
+    <!-- SERIES TAB -->
+    <div class="tab-panel active" id="tab-series">
+      <div class="admin-card">
+        <h2>🖥 Add New Series</h2>
+        <p class="hint">Name + Poster URL + Rating + Category. Phir Manage se seasons/episodes + Server links.</p>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Series Name *</label>
+            <input type="text" id="sName" placeholder="e.g. Attack on Titan" />
+          </div>
+          <div class="form-group full">
+            <label>Poster Photo URL *</label>
+            <input type="url" id="sPoster" placeholder="https://cdn.myanimelist.net/images/anime/....jpg" />
+          </div>
+          <div class="form-group">
+            <label>⭐ Rating</label>
+            <input type="number" id="sRating" step="0.1" min="0" max="10" value="8.5" />
+          </div>
+          <div class="form-group">
+            <label>AnimeSalt slug (optional — auto episodes)</label>
+            <input type="text" id="sApiSlug" placeholder="leave empty for fully manual" />
+          </div>
+          <div class="form-group full">
+            <label>Selected Categories</label>
+            <div class="chip-row" id="sCats"></div>
+          </div>
+          <div class="form-group full">
+            <label>Homepage Placement (kahan dikhana hai)</label>
+            <div class="chip-row" id="sSections"></div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-pink" id="addSeriesBtn">+ Add Series</button>
+        </div>
+      </div>
+      <div class="admin-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+          <h2>📋 Your Series <button type="button" class="btn" id="publishAllBtn2" style="margin-left:12px;background:#0ea5e9;font-size:0.75rem;padding:6px 12px">Publish All → public-data.json</button> (<span id="seriesCount">0</span>)</h2>
+          <input type="search" id="seriesSearch" placeholder="Search series…" style="padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);min-width:180px" />
+        </div>
+        <div id="seriesList"></div>
+      </div>
+    </div>
+
+    <!-- MOVIES TAB -->
+    <div class="tab-panel" id="tab-movies">
+      <div class="admin-card">
+        <h2>🎬 Add New Movie</h2>
+        <p class="hint">Movie title + poster + up to 3 server stream links (Server 2 = alternate).</p>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Movie Name *</label>
+            <input type="text" id="mName" placeholder="e.g. Your Name" />
+          </div>
+          <div class="form-group full">
+            <label>Poster URL *</label>
+            <input type="url" id="mPoster" placeholder="https://..." />
+          </div>
+          <div class="form-group">
+            <label>Rating</label>
+            <input type="number" id="mRating" step="0.1" value="8.0" />
+          </div>
+          <div class="form-group">
+            <label>AnimeSalt slug (optional)</label>
+            <input type="text" id="mApiSlug" placeholder="suzume" />
+          </div>
+          <div class="form-group full">
+            <label>Server 1 (Primary / CDN)</label>
+            <input type="url" id="mS1" placeholder="https://as-cdn... or embed URL" />
+          </div>
+          <div class="form-group full">
+            <label>Server 2</label>
+            <input type="url" id="mS2" placeholder="Alternate player URL" />
+          </div>
+          <div class="form-group full">
+            <label>Server 3 (optional)</label>
+            <input type="url" id="mS3" placeholder="https://..." />
+          </div>
+          <div class="form-group full">
+            <label>Categories</label>
+            <div class="chip-row" id="mCats"></div>
+          </div>
+          <div class="form-group full">
+            <label>Homepage Placement (kahan dikhana hai)</label>
+            <div class="chip-row" id="mSections"></div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-pink" id="addMovieBtn">+ Add Movie</button>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h2>Your Movies <button type="button" class="btn" id="publishAllBtn" style="margin-left:12px;background:#0ea5e9;font-size:0.75rem;padding:6px 12px">Publish All → public-data.json</button> (<span id="movieCount">0</span>)</h2>
+        <div id="movieList"></div>
+      </div>
+    </div>
+
+    <!-- EDIT API EPISODE -->
+    <div class="tab-panel" id="tab-epedit">
+      <div class="admin-card">
+        <h2>➕ Add / Edit Episode (existing anime)</h2>
+        <p class="hint">
+          Jo anime pehle se site pe hai (API se) usmein naya episode add karo ya link change karo.<br/>
+          Example: Re:Zero Season 4 Episode 12 → Anime ID + Season 4 + Episode 12.
+          Save ke baad <strong>Publish</strong> karke <code>public-data.json</code> host pe upload karo.
+        </p>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Anime ID / slug *</label>
+            <input type="text" id="epAnimeSlug" placeholder="re-zero-starting-life-in-another-world" />
+            <small style="color:var(--text-muted)">Watch URL se: id= ke baad wala hissa</small>
+          </div>
+          <div class="form-group">
+            <label>Season *</label>
+            <input type="number" id="epSeason" value="1" min="1" />
+          </div>
+          <div class="form-group">
+            <label>Episode number *</label>
+            <input type="number" id="epNumber" value="1" min="1" />
+          </div>
+          <div class="form-group full">
+            <label>Episode title (optional)</label>
+            <input type="text" id="epTitle" placeholder="Episode 12" />
+          </div>
+          <div class="form-group full">
+            <label>Episode ID (auto)</label>
+            <input type="text" id="epId" placeholder="auto: slug-1x12" readonly style="opacity:0.85" />
+          </div>
+          <div class="form-group full">
+            <label>Episode Picture / Thumbnail URL (optional — chhod sakte ho, baad mein add kar lena)</label>
+            <input type="url" id="epApiThumb" placeholder="https://... (khali chhodo agar abhi nahi hai)" />
+          </div>
+          <div class="form-group full">
+            <label>Server 1 (Primary — khali chhod sakte ho, baad mein add kar lena)</label>
+            <input type="url" id="epS1" placeholder="https://... (khali chhodo agar abhi nahi hai)" />
+          </div>
+          <div class="form-group full">
+            <label>Server 2 (optional alternate)</label>
+            <input type="url" id="epS2" placeholder="Alternate player URL" />
+          </div>
+          <div class="form-group full">
+            <label>Server 3 (optional)</label>
+            <input type="url" id="epS3" placeholder="https://..." />
+          </div>
+          <div class="form-group full">
+            <label>Note</label>
+            <input type="text" id="epNote" placeholder="Custom episode note" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-pink" id="epSaveBtn">Save Episode Override</button>
+        <button type="button" class="btn" id="epExportBtn" style="margin-left:8px;background:#0ea5e9">Publish / Download (public-data.json)</button>
+        <p class="hint" style="margin-top:10px">Public banane ke liye: Save ke baad <strong>Publish / Download (public-data.json)</strong> dabao, phir is file ko hosting root pe upload karo (index.html ke saath). Local only = sirf is browser.</p>
+        </div>
+        <div id="epOverrideList" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- LIVE CATALOG -->
+    <div class="tab-panel" id="tab-live">
+      <div class="admin-card">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h2 style="margin:0">📡 Live Catalog (<span id="liveCount">0</span>)</h2>
+          <input type="search" id="liveSearch" placeholder="Search live catalog…" style="padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);min-width:220px;flex:1;max-width:320px" />
+        </div>
+        <p class="hint">Hide titles from public site, or set category. Search se filter karo.</p>
+        <div id="liveList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manage Series Modal -->
+  <div class="modal-bg hidden" id="manageModal">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 id="manageTitle">Manage</h3>
+        <button class="btn-ghost2" id="closeManage">✕</button>
+      </div>
+      <div class="form-grid" style="margin-bottom:14px">
+        <div class="form-group">
+          <label>New Season Number</label>
+          <input type="number" id="newSeasonNum" value="1" min="1" />
+        </div>
+        <div class="form-group" style="justify-content:flex-end">
+          <label>&nbsp;</label>
+          <button class="btn-pink" id="addSeasonBtn">+ Add Season</button>
+        </div>
+      </div>
+      <div id="seasonsBox"></div>
+    </div>
+  </div>
+
+  <!-- Episode form modal -->
+  <div class="modal-bg hidden" id="epModal">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 id="epModalTitle">Episode</h3>
+        <button class="btn-ghost2" id="closeEpModal">✕</button>
+      </div>
+      <input type="hidden" id="epEditSeason" />
+      <input type="hidden" id="epEditIndex" value="-1" />
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Episode Number</label>
+          <input type="number" id="epNum" value="1" min="1" />
+        </div>
+        <div class="form-group">
+          <label>Episode Title</label>
+          <input type="text" id="epTitle" placeholder="Episode 1" />
+        </div>
+        <div class="form-group full">
+          <label>Thumbnail URL (optional)</label>
+          <input type="url" id="epThumb" placeholder="https://..." />
+        </div>
+        <div class="form-group full">
+          <label>Server 1 (Primary)</label>
+          <input type="url" id="epSrv1" placeholder="https://..." />
+        </div>
+        <div class="form-group full">
+          <label>Server 2</label>
+          <input type="url" id="epSrv2" placeholder="Alternate stream URL" />
+        </div>
+        <div class="form-group full">
+          <label>Server 3</label>
+          <input type="url" id="epSrv3" placeholder="https://..." />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-ghost2" id="cancelEpBtn">Cancel</button>
+        <button class="btn-pink" id="saveEpBtn">💾 Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

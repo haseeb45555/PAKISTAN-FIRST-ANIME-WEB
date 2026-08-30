@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Catalog | Anime Pakistan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-flag" aria-hidden="true">
+          <svg viewBox="0 0 60 40" width="36" height="24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="40" fill="#01411C"/>
+            <rect width="15" height="40" fill="#fff"/>
+            <circle cx="34" cy="20" r="9" fill="#fff"/>
+            <circle cx="37" cy="20" r="7.5" fill="#01411C"/>
+            <polygon fill="#fff" points="42,14 43.2,17.5 46.8,17.5 43.9,19.6 45,23 42,20.8 39,23 40.1,19.6 37.2,17.5 40.8,17.5"/>
+          </svg>
+        </span>
+        <span class="logo-text"><span class="logo-pk">Pakistan</span><span class="logo-an">Anime</span></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link active">Browse</a>
+        <a href="browse.html?type=series" class="nav-link">Series</a>
+        <a href="browse.html?type=movies" class="nav-link">Movies</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-icon" id="searchBtn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="btn-icon" id="themeToggle" aria-label="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="browse.html">Browse</a>
+    <a href="browse.html?type=series">Series</a>
+    <a href="browse.html?type=movies">Movies</a>
+  </div>
+
+  <main class="main">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Full Anime Catalog & Filters</h1>
+        <p class="page-sub">Search and stream anime, cartoons, and movies.</p>
+      </div>
+
+      <div class="filters">
+        <div class="search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="browseSearch" placeholder="Search anime movies or series..." />
+        </div>
+
+        <div class="filter-row">
+          <span class="filter-label">A–Z:</span>
+          <button class="filter-chip active" data-letter="ALL">ALL</button>
+          <button class="filter-chip" data-letter="#">#</button>
+          <script>
+            // letters A-Z injected below
+          </script>
+          <!-- A-Z chips -->
+          <button class="filter-chip" data-letter="A">A</button>
+          <button class="filter-chip" data-letter="B">B</button>
+          <button class="filter-chip" data-letter="C">C</button>
+          <button class="filter-chip" data-letter="D">D</button>
+          <button class="filter-chip" data-letter="E">E</button>
+          <button class="filter-chip" data-letter="F">F</button>
+          <button class="filter-chip" data-letter="G">G</button>
+          <button class="filter-chip" data-letter="H">H</button>
+          <button class="filter-chip" data-letter="I">I</button>
+          <button class="filter-chip" data-letter="J">J</button>
+          <button class="filter-chip" data-letter="K">K</button>
+          <button class="filter-chip" data-letter="L">L</button>
+          <button class="filter-chip" data-letter="M">M</button>
+          <button class="filter-chip" data-letter="N">N</button>
+          <button class="filter-chip" data-letter="O">O</button>
+          <button class="filter-chip" data-letter="P">P</button>
+          <button class="filter-chip" data-letter="Q">Q</button>
+          <button class="filter-chip" data-letter="R">R</button>
+          <button class="filter-chip" data-letter="S">S</button>
+          <button class="filter-chip" data-letter="T">T</button>
+          <button class="filter-chip" data-letter="U">U</button>
+          <button class="filter-chip" data-letter="V">V</button>
+          <button class="filter-chip" data-letter="W">W</button>
+          <button class="filter-chip" data-letter="X">X</button>
+          <button class="filter-chip" data-letter="Y">Y</button>
+          <button class="filter-chip" data-letter="Z">Z</button>
+        </div>
+
+        <div class="filter-row">
+          <span class="filter-label">Category:</span>
+          <button class="filter-chip active" data-category="ALL">ALL</button>
+          <button class="filter-chip" data-category="Action">Action</button>
+          <button class="filter-chip" data-category="Adventure">Adventure</button>
+          <button class="filter-chip" data-category="Comedy">Comedy</button>
+          <button class="filter-chip" data-category="Drama">Drama</button>
+          <button class="filter-chip" data-category="Fantasy">Fantasy</button>
+          <button class="filter-chip" data-category="Horror">Horror</button>
+          <button class="filter-chip" data-category="Romance">Romance</button>
+          <button class="filter-chip" data-category="Sci-Fi">Sci-Fi</button>
+          <button class="filter-chip" data-category="Sports">Sports</button>
+          <button class="filter-chip" data-category="Thriller">Thriller</button>
+          <button class="filter-chip" data-category="Slice of Life">Slice of Life</button>
+          <button class="filter-chip" data-category="Supernatural">Supernatural</button>
+          <button class="filter-chip" data-category="Mecha">Mecha</button>
+          <button class="filter-chip" data-category="Mystery">Mystery</button>
+          <button class="filter-chip" data-category="Cartoon">Cartoon</button>
+        </div>
+
+        <div class="filter-row" style="margin-bottom:0">
+          <div class="type-tabs">
+            <button class="type-tab active" data-type="all">All</button>
+            <button class="type-tab" data-type="series">Series</button>
+            <button class="type-tab" data-type="movies">Movies</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="results-count" id="resultsCount">0 results</p>
+      <div class="catalog-grid" id="catalogGrid">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </main>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="text-align:center;padding:28px 0 16px;border-top:1px solid var(--border)">
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px">© 2026 Pakistan Anime Web — Free Anime Streaming PK (Educational Project)</p>
+        <a href="admin.html" style="color:var(--text-muted);font-size:0.8rem;opacity:0.7">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="searchModal">
+    <div class="modal-content search-modal">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search anime movies or series..." />
+        <button class="modal-close" id="searchClose">×</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Main">
+    <a href="index.html" data-nav="home">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="#" data-nav="search" id="bottomSearch">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="browse.html?type=series" data-nav="series">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h4M7 13h10M7 17h8"/></svg>
+      <span>Series</span>
+    </a>
+    <a href="browse.html?type=movies" data-nav="movies">
+      <svg viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/><path d="m10 9 5 3-5 3V9z"/></svg>
+      <span>Movies</span>
+    </a>
+  </nav>
+
+</body>
+</html>
